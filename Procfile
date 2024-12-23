@@ -1,0 +1,1 @@
+web: gunicorn labelbox_webapp.wsgi
