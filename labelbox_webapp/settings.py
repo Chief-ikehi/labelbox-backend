@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3c)_z%vy0*b_0f&-&q!2rwjj9s4a+pcfg)m+t$5!ti(ef@p66!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['labelbox-backend-1wx6.onrender.com']
 
 
 # Application definition
@@ -77,8 +77,22 @@ WSGI_APPLICATION = 'labelbox_webapp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+import environ
+
+env = environ.Env()
+environ.Env.read_env()  # This will read your environment variables
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+    }
+}
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'labelbox_db',
@@ -88,7 +102,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
