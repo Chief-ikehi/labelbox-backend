@@ -1,0 +1,33 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main  # This ensures the action runs on every push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # We’re using a Linux runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # This checks out the code from your GitHub repo
+
+      - name: Set up Python
+        uses: actions/setup-python@v2  # This sets up Python in the CI environment
+        with:
+          python-version: '3.x'  # Specify the Python version (3.x is fine)
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # This installs the dependencies from requirements.txt
+
+      - name: Run Migrations
+        run: |
+          python manage.py migrate  # This runs the database migrations
+
+      - name: Deploy to Render
+        uses: renderinc/render-deploy@v1  # This deploys the app to Render
+        with:
+          render_api_key: ${{rnd_QqnPCzZUGKTTrsFcHXIClYoGWWXT}}  # Your Render API key (explained later)
+          service_id: ${{SHA256:i9P541D1WQG+N6ZUHyHDub0BsNWkeDbjO30BFiJlVWs}}  # Your Render service ID (explained later)
